@@ -22,52 +22,6 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-//    @GetMapping("")
-//    public String usersList(Model model) {
-//        model.addAttribute("list", userService.getAllUsers());
-//        return "admin/users";
-//    }
-//
-//    @GetMapping("/new")
-//    public String newUser(Model model) {
-//        model.addAttribute("user", new User());
-//        return "admin/new";
-//    }
-//    @PostMapping
-//    public String create(@ModelAttribute("user") User user,
-//                         @RequestParam(required=false) String roleAdmin) {
-//        userService.editUser(user, (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")));
-//        return "redirect:/admin";
-//    }
-//
-//
-//
-//    @GetMapping("/edit/{id}")
-//    public String edit(Model model, @PathVariable("id") long id) {
-//        User user = userService.getUserById(id);
-//        boolean checked =
-//                user.getRoles().contains(roleService.getRoleByName("ROLE_ADMIN"));
-//        model.addAttribute("user", user);
-//        model.addAttribute("checked", checked);
-//        return "admin/edit";
-//    }
-//    @PostMapping("/edit/{id}")
-//    public String update(@ModelAttribute("user") User user,
-//                         @RequestParam(required=false) String roleAdmin) {
-//        if (user.getPassword().equals("")) {
-//            User updUser = userService.getUserById(user.getId());
-//            user.setPassword(updUser.getPassword());
-//        } else user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        userService.editUser(user, (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")));
-//        return "redirect:/admin";
-//    }
-//
-//
-//    @DeleteMapping("/{id}")
-//    public String delete(@PathVariable("id") long id) {
-//        userService.deleteUser(id);
-//        return "redirect:/admin";
-//    }
 @GetMapping("")
 public String getAllUsers(Model model) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -91,7 +45,7 @@ public String getAllUsers(Model model) {
     @PatchMapping("/{id}/updateUser")
     public String updateUserById(User user, String role) {
 
-        userService.saveUser(user, (role.contains("ROLE_ADMIN")));
+        userService.saveUser(user, role);
         return "redirect:/admin";
     }
 
@@ -100,9 +54,5 @@ public String getAllUsers(Model model) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
-
-
-
-
 
 }

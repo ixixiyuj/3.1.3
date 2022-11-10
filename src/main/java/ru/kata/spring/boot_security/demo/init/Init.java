@@ -17,11 +17,11 @@ import java.util.Set;
 public class Init implements ApplicationRunner {
 
 
-    private UserService userService;
+    private final UserService userService;
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    public Init(UserService userService, BCryptPasswordEncoder passwordEncoder, RoleService roleService) {
+    public Init(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -40,8 +40,16 @@ public class Init implements ApplicationRunner {
             adminRole.add(admin);
             adminRole.add(user);
             userRole.add(user);
-            userService.saveUser(new User( "admin", "admin", adminRole ));
-            userService.saveUser(new User( "user", "user", userRole ));
+            User adm = new User( "admin@mail.ru", "admin", adminRole );
+            adm.setName("Ivan");
+            adm.setLastName("Ivanov");
+            adm.setAge(30);
+            userService.saveUser(adm);
+            User us = new User( "user@mail.ru", "user", userRole );
+            us.setName("Petr");
+            us.setLastName("Petrov");
+            us.setAge(35);
+            userService.saveUser(us);
         }
     }
 }

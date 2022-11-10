@@ -10,6 +10,7 @@ public interface UserService extends UserDetailsService {
  void deleteUser(Long id);
  void saveUser(User user, boolean roleAdmin);
  void saveUser(User user);
+ void saveUser(User user, String role);
  User getUserByUsername(String username);
  User getUserById(Long id);
 

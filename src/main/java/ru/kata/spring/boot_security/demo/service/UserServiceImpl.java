@@ -44,13 +44,27 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Set<Role> roles = user.getRoles();
-        if (roles.contains(roleService.getRoleByName("ROLE_ADMIN"))) {
-            roles.add(roleService.getRoleByName("ROLE_USER"));
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void saveUser(User user, String role) {
+        User updUser = userRepository.getById(user.getId());
+        if (user.getPassword().equals("")) {
+            user.setPassword(updUser.getPassword());
+        } else user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Set<Role> roles = new HashSet<>();
+        if (role.contains("ROLE_USER")) {
+            roles.add(roleService.getRoleById(2L));
+        }
+        if (role.contains("ROLE_ADMIN")) {
+            roles.add(roleService.getRoleById(1L));
         }
         user.setRoles(roles);
         userRepository.save(user);
     }
+
 
     @Override
     public User getUserByUsername(String username) {
